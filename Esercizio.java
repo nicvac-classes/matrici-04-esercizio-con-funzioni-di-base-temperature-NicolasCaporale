@@ -12,14 +12,26 @@ class Esercizio {
     //Valori multipli di ritorno per il metodo calcolaMassimo
     public static record Max(int massimo, int rIdx, int cIdx) { }
 
-    // Metodo per calcolare il massimo nella matrice
-    public static Max calcolaMassimo( /*scrivere qui i parametri richiesti dall'esercizio*/ ) {
-        //SCRIVERE QUI IL CODICE RICHIESTO DALL'ESERCIZIO
+    public static Max calcolaMassimo(int[][] M, int RIGHE, int COLONNE) {
+        int r = 0;
+        int c = 0;
+        for (int i = 0; i < RIGHE; i++) {
+            for (int j = 0; j < COLONNE; j++) {
+                if (M[i][j] > M[r][c]) {
+                    r = i;
+                    c = j;
+                }
+            }
+        }
+        return new Max(M[r][c], r, c);
     }
 
-    // Metodo per calcolare la media di una colonna
-    public static float calcolaMedia( /*scrivere qui i parametri richiesti dall'esercizio*/ ) {
-        //SCRIVERE QUI IL CODICE RICHIESTO DALL'ESERCIZIO        
+    public static float calcolaMedia(int[][] M, int RIGHE, int COLONNE, int col) {
+        int somma = 0;
+        for (int i = 0; i < RIGHE; i++) {
+            somma += M[i][col];
+        }
+        return (float) somma / RIGHE;
     }
 
     // Metodo per riempire la matrice con valori casuali
@@ -34,8 +46,33 @@ class Esercizio {
     }
 
     public static void main(String args[]) {
-        //SCRIVERE QUI IL CODICE RICHIESTO DALL'ESERCIZIO
+        int GIORNI = 7;
+        int ORE = 5;
+
+        int[][] T = new int[GIORNI][ORE];
+
+        riempiCasuale(T, GIORNI, ORE, 280, 300);
+
+        System.out.println("tabella:");
+        for (int i = 0; i < GIORNI; i++) {
+            System.out.print("[");
+            for (int j = 0; j < ORE; j++) {
+                System.out.print(T[i][j]);
+                if (j < ORE - 1) System.out.print(" ");
+            }
+            System.out.println("]");
+        }
+
+        Max m = calcolaMassimo(T, GIORNI, ORE);
+
+        System.out.println("massimo: " + m.massimo());
+        System.out.println("giorno: " + (m.rIdx() + 1));
+        System.out.println("fascia: " + (m.cIdx() + 1));
+
+        System.out.println("medie:");
+        for (int j = 0; j < ORE; j++) {
+            System.out.print(calcolaMedia(T, GIORNI, ORE, j) + " ");
+        }
+        System.out.println();
     }
 }
-
-//LEGGERE LE ISTRUZIONI NEL FILE README.md
